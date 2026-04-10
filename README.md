@@ -1,3 +1,5 @@
+Taran Sidhu A01474956, Shubh Hanspal A01234584
+
 # Term Assignment
 
 ## Introduction
@@ -83,7 +85,6 @@ All GET routes, unless otherwise specified, should `res.render` a template. All 
       - each entry has a link, which uses the title for its visible text ✅
       - each entry also lists the user that created it
 - subs
-
   - `GET /subs/list`
     - shows a list of all existing subs that have at least one post
       - each entry is a link to the appropriate `GET /subs/show/:subname`
