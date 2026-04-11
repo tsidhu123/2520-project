@@ -2,9 +2,9 @@
   "name": "term_project",
   "version": "0.1.0",
   "description": "",
-  "main": "app.js",
+  "main": "app.ts",
   "scripts": {
-    "dev": "tsx watch --env-file=.env app.ts"
+    "start": "tsx watch --env-file=.env app.ts"
   },
   "license": "MIT",
   "dependencies": {
