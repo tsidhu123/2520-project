@@ -1,4 +1,4 @@
-import express from "express";
+import express, { NextFunction, Request, Response } from "express";
 import passport from "../middleware/passport";
 const router = express.Router();
 
@@ -14,13 +14,14 @@ router.post(
   })
 );
 
-router.get("/logout", (req, res, next) => {
-  req.logout(function (err) {
-    if (err) {
-      return next(err);
-    }
+function logoutHandler(req: Request, res: Response, next: NextFunction) {
+  req.logout(function (err: unknown) {
+    if (err) return next(err as Error);
+    res.redirect("/");
   });
-  res.redirect("/");
-});
+}
+
+router.get("/logout", logoutHandler);
+router.post("/logout", logoutHandler);
 
 export default router;

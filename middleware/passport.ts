@@ -5,16 +5,22 @@ import {
   getUserById,
 } from "../controller/userController";
 
-// ⭐ TODO: Passport Types
+type User = {
+  id: number;
+  uname: string;
+  password: string;
+};
+
 const localLogin = new LocalStrategy(
   {
     usernameField: "uname",
     passwordField: "password",
   },
-  async (uname: any, password: any, done: any) => {
+  async (uname: string, password: string, done) => {
     // Check if user exists in databse
-    const user = await getUserByEmailIdAndPassword(uname, password);
-    // console.log('passport 13: '+ user.uname);
+    const user = (await getUserByEmailIdAndPassword(uname, password)) as
+      | User
+      | null;
     return user
       ? done(null, user)
       : done(null, false, {
@@ -23,19 +29,21 @@ const localLogin = new LocalStrategy(
   }
 );
 
-// ⭐ TODO: Passport Types
-passport.serializeUser(function (user: any, done: any) {
-  console.log("serialize: " + user.id);
-  done(null, user.id);
+passport.serializeUser(function (user: Express.User, done) {
+  const u = user as User;
+  done(null, u.id);
 });
 
-// ⭐ TODO: Passport Types
-passport.deserializeUser(function (id: any, done: any) {
-  const user = getUserById(id);
-  if (user) {
+passport.deserializeUser(async function (id: string, done) {
+  try {
+    const user = (await getUserById(id)) as User | null;
+    if (!user) {
+      done(null, false);
+      return;
+    }
     done(null, user);
-  } else {
-    done({ message: "User not found" }, null);
+  } catch (err) {
+    done(err as Error);
   }
 });
 

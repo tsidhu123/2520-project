@@ -2,6 +2,7 @@ import express from "express";
 import session from "express-session";
 import passport from "./middleware/passport";
 const PORT = process.env.PORT || 8000;
+const SESSION_SECRET = process.env.SESSION_SECRET ?? "secret";
 
 const app = express();
 
@@ -10,7 +11,7 @@ app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(
   session({
-    secret: "secret",
+    secret: SESSION_SECRET,
     resave: true,
     saveUninitialized: false,
     cookie: {

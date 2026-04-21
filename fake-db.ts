@@ -75,10 +75,9 @@ function getUser(id) {
   return users[id];
 }
 
-function getUserByUsername(uname: any) {
-  return getUser(
-    Object.values(users).filter((user) => user.uname === uname)[0].id
-  );
+function getUserByUsername(uname: string) {
+  const match = Object.values(users).find((user) => user.uname === uname);
+  return match ? getUser(match.id) : undefined;
 }
 
 function getVotesForPost(post_id) {
